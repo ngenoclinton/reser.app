@@ -1,8 +1,8 @@
 
 // import rooms from '@/data/rooms.json'; 
 
-import Heading from "@/components/Heading";
-import RoomCard from "@/components/RoomCard";
+import Heading from "../../components/Heading";
+import RoomCard from "../../components/RoomCard";
 import getAllRooms from "../actions/getAllRooms";
 
 export default async function Home() {

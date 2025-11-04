@@ -15,10 +15,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.pixabay.com',
       },
-    ],
-    domains: [
-      'cloud.appwrite.io',       // ✅ Allow Appwrite-hosted files
-      'images.unsplash.com',     // ✅ If you also use Unsplash images
+      {
+        protocol: 'https',
+        hostname: 'cloud.appwrite.io',
+        pathname: '**',
+      },
     ],
   },
  experimental: {

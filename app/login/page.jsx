@@ -15,16 +15,6 @@ const LoginPage = () => {
   const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   if (state.error) {
-  //     toast.error(state.error);
-  //   }
-  //   if (state.success) {
-  //     toast.success("Logged in successfully!");
-  //     setIsAuthenticated(true);
-  //     router.push("/");
-  //   }
-  // }, [state]);
 
   useEffect(() => {
     if (state?.error) {

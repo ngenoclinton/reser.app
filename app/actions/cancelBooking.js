@@ -31,7 +31,7 @@ async function cancelBooking(bookingId, userId) {
     );
 
     // ✅ Refresh the bookings page
-    revalidatePath('/bookings');
+    // revalidatePath('/bookings');
 
     return { success: true };
   } catch (error) {

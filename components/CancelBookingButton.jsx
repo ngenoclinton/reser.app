@@ -4,10 +4,10 @@ import { useAuth } from '../context/authLogContext';
 import cancelBooking from '../app/actions/cancelBooking';
 import { useRouter } from 'next/navigation';
 
-const CancelBookingButton = ({ bookingId }) => {
+const CancelBookingButton = ({ bookingId, onCancel}) => {
   const { user,  isAuthenticated} = useAuth();
   const router = useRouter();
-
+    
   const handleCancelClick = async () => {
     if (!isAuthenticated) {
       toast.error('You must be logged in to cancel a booking');
@@ -18,6 +18,10 @@ const CancelBookingButton = ({ bookingId }) => {
     if (!confirmed) return;
 
     try {
+
+         // ✅ Optimistically update UI first
+      if (onCancel) onCancel(bookingId);
+
       const result = await cancelBooking(bookingId, user.$id);
 
       if (result.success) {

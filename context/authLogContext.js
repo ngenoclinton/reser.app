@@ -6,36 +6,43 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(true); // ✅ rename
   const isAuthenticated = !!user;
 
- useEffect(() => {
-  const cachedUser = localStorage.getItem('user');
-  if (cachedUser) setUser(JSON.parse(cachedUser));
+  useEffect(() => {
+    const cachedUser = localStorage.getItem('user');
+    if (cachedUser) setUser(JSON.parse(cachedUser));
 
-  const fetchUser = async () => {
-    try {
-      const userData = await account.get();
-      setUser(userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-    } catch {
-      setUser(null);
-      localStorage.removeItem('user');
-    } finally {
-      setLoading(false);
-    }
+    const fetchUser = async () => {
+      try {
+        const userData = await account.get();
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+      } catch {
+        setUser(null);
+        localStorage.removeItem('user');
+      } finally {
+        setAuthLoading(false); // ✅ rename
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const login = (userData) => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData)); // ✅ keep in sync
   };
 
-  fetchUser();
-}, []);
-
-
-
-  const login = (userData) => setUser(userData);
-  const logout = () => setUser(null);
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user'); // ✅ clear cache on logout
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, authLoading, isAuthenticated }} // ✅ export authLoading
+    >
       {children}
     </AuthContext.Provider>
   );

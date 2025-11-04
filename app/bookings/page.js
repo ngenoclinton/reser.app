@@ -1,26 +1,28 @@
-'use client';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { useAuth } from '../../context/authLogContext';
-import getMyBookings from '../actions/getMyBookings';
-import Heading from '../../components/Heading';
-import BookedRoomCard from '../../components/BookedRoomCard';
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useAuth } from "../../context/authLogContext";
+import getMyBookings from "../actions/getMyBookings";
+import Heading from "../../components/Heading";
+import BookedRoomCard from "../../components/BookedRoomCard";
 
 const BookingsPage = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, authLoading } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchBookings = async () => {
-      if (!isAuthenticated) {
-        toast.error('Please log in to view your bookings');
-        setTimeout(() => router.push('/login'), 2000);
-        return;
-      }
+    if (authLoading) return; // ✅ Wait for auth state to finish loading
 
+    if (!isAuthenticated || !user?.$id) {
+      toast.error("Please log in to view your bookings");
+      setTimeout(() => router.push("/login"), 1500);
+      return;
+    }
+
+    const fetchBookings = async () => {
       try {
         const result = await getMyBookings(user.$id);
 
@@ -29,20 +31,20 @@ const BookingsPage = () => {
         } else if (result.error) {
           toast.error(result.error);
         } else {
-          toast.error('Unexpected error loading bookings');
+          toast.error("Unexpected error loading bookings");
         }
       } catch (error) {
-        console.error('Error:', error);
-        toast.error('Something went wrong while fetching bookings');
+        console.error("Error:", error);
+        toast.error("Something went wrong while fetching bookings");
       } finally {
         setLoading(false);
       }
     };
 
     fetchBookings();
-  }, [user, router]);
+  }, [user, isAuthenticated, authLoading, router]);
 
-  if (loading) {
+  if (authLoading || loading) {
     return <p className="text-gray-600 mt-4">Loading your bookings...</p>;
   }
 
@@ -53,7 +55,13 @@ const BookingsPage = () => {
         <p className="text-gray-600 mt-4">You have no bookings yet.</p>
       ) : (
         bookings.map((booking) => (
-          <BookedRoomCard key={booking.$id} booking={booking} />
+          <BookedRoomCard
+            key={booking.$id}
+            booking={booking}
+            onCancel={(bookingId) => {
+              setBookings((prev) => prev.filter((b) => b.$id !== bookingId));
+            }}
+          />
         ))
       )}
     </div>

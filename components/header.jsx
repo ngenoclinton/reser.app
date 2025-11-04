@@ -4,18 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../assets/logo.jpg';
 import { FaUser, FaSignInAlt, FaSignOutAlt, FaBuilding } from 'react-icons/fa';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/authLogContext';
-// import destroySession from '@/app/actions/destroySession';
 import { destroySessionClient } from '../lib/destroySessionClient';
-// import { useAuth } from '@/context/authContext';
 
 const Header = () => {
   const router = useRouter();
 
-  const { isAuthenticated,  logout } = useAuth();
-    // const { isAuthenticated, setIsAuthenticated } = useState(true);
+  const { isAuthenticated,  logout, setUser } = useAuth();
 
   // const handleLogout = async () => {
   //   const { success, error } = await destroySession();
@@ -29,7 +25,6 @@ const Header = () => {
   // };
 
     const handleLogout = async () => {
-    // const { success, error } = await destroySession();
   const { success, error } = await destroySessionClient();
 
     if (success) {
