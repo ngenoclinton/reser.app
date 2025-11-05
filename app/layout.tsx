@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Inter, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,19 +10,21 @@ import { Toaster } from "sonner";
 const inter = Inter({
   subsets: ["latin"],
 });
+const _geist = Geist({ subsets: ["latin"] })
+const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Reserv | Book a Room",
-  description: "Reserv is a booking app for meeting/conference rooms.",
-};
-
+  title: "Reser App - Modern Space Booking",
+  description: "Book professional meeting and event spaces with ease",
+  generator: "v0.app",
+}
 export default function RootLayout({ children }) {
   return (
     <AuthWrapper>
       <html lang="en">
         <body className={inter.className}>
           <Header />
-          <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <main className={`font-sans antialiased flex flex-col min-h-screen`}>
             {children}
             <Toaster richColors position="top-center" />
           </main>

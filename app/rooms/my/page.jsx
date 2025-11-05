@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import { toast } from 'sonner';
 import { toast } from "react-toastify";
+import getMyRooms from "../../actions/getMyRooms";
 import Heading from "../../../components/Heading";
 import MyRoomCard from "../../../components/MyRoomCard";
-import getMyRooms from "../../actions/getMyRooms";
 import ProtectedRoute from "../../../components/ProtectedRoute";
 
 const MyRoomsPage = () => {

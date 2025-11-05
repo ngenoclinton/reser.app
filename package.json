@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "appwrite": "^21.3.0",
+    "lucide-react": "^0.552.0",
     "luxon": "^3.7.2",
     "next": "16.0.0",
     "node-appwrite": "^20.2.1",
