@@ -1,20 +1,29 @@
-"use client";
-import { useEffect } from "react";
-import { useFormState } from "react-dom";
+"use client"
+
+import { useState, useEffect} from "react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { useAuth } from "../../../context/authLogContext"
 import { useActionState } from "react"; // ✅ new import
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+
+import Heading from "../../../components/Heading"
+import ProtectedRoute from "../../../components/ProtectedRoute"
 import createRoom from "../../actions/createRoom";
-import { useAuth } from "../../../context/authLogContext";
-import Heading from "../../../components/Heading";
-import ProtectedRoute from "../../../components/ProtectedRoute";
 
-const AddRoomPage = () => {
-  const { user, loading } = useAuth();
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Card } from "@/components/ui/card"
+
+export default function AddRoomPage() {
+  const { user, isAuthenticated, authLoading, loading} = useAuth(); 
   const [state, formAction] = useActionState(createRoom, {});
-  const router = useRouter();
+  const [load, setLoad] = useState(false); // ✅ rename
 
-  useEffect(() => {
+  const router = useRouter()   
+  // const [loading, setLoading] = useState(false)
+
+   useEffect(() => {
     if (state.error) toast.error(state.error);
     if (state.success) {
       toast.success(state.message);
@@ -22,182 +31,208 @@ const AddRoomPage = () => {
     }
   }, [state]);
 
-  // 🌀 Show loader while auth is being checked
-  if (loading) {
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   description: "",
+  //   capacity: "",
+  //   sqft: "",
+  //   price_per_hour: "",
+  //   location: "",
+  //   address: "",
+  //   amenities: "",
+  // })
+
+  if (authLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen text-gray-600">
-        Checking authentication...
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <p className="text-center text-foreground/60">Checking authentication...</p>
       </div>
-    );
+    )
   }
 
+  if (!isAuthenticated) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <p className="text-center text-foreground/60">Please log in to add a room</p>
+      </div>
+    )
+  }
+
+  // const handleInputChange = (e) => {
+    // const { name, value } = e.target
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }))
+  // }
+  // coS
+
   const handleAction = (formData) => {
+    setLoad(true); 
+
     if (!user) {
       toast.error("You must be logged in to create a room.");
       router.push("/login");
       return;
     }
+
     formData.append("userId", user.$id);
     formAction(formData);
+
+    setLoad(false)
   };
 
   return (
     <ProtectedRoute>
-      <Heading title="Add a Room" />
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full">
-        {/* <form action={formAction}> */}
-        <form action={handleAction}>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Room Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Enter a name (Large Conference Room)"
-              required
-            />
-          </div>
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Heading title="Add New Room" subtitle="List your space on Reser" />
 
-          <div className="mb-4">
-            <label
+        <Card className="p-8 border border-border">
+          <form action={handleAction} className="space-y-6">
+            {/* Room Name */}
+            <div>
+              <label               
+              htmlFor="name" 
+              className="block text-sm font-semibold mb-2 text-foreground">Room Name</label>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                required                
+                placeholder="Enter a name (Large Conference Room)"
+                // value={formData.name}
+                // onChange={handleInputChange}                
+                // className="border rounded w-full py-2 px-3"
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <label 
               htmlFor="description"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              className="border rounded w-full h-24 py-2 px-3"
-              placeholder="Enter a description for the room"
-              required
-            ></textarea>
-          </div>
+              className="block text-sm font-semibold mb-2 text-foreground">Description</label>
+              <Textarea
+                name="description"                
+                id="description"
+                // value={formData.description}
+                // onChange={handleInputChange}
+                placeholder="Describe your room..."
+                rows={4}
+                required
+              />
+            </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="sqft"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Square Feet
-            </label>
-            <input
-              type="number"
-              id="sqft"
-              name="sqft"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Enter room size in ft"
-              required
-            />
-          </div>
+            {/* Grid: Capacity & Sqft */}
+            <div 
+            
+            className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label 
+                htmlFor="capacity"
+                className="block text-sm font-semibold mb-2 text-foreground">Capacity (people)</label>
+                <Input
+                  type="number"
+                  id="capacity"
+                  name="capacity"
+                  // value={formData.capacity}
+                  // onChange={handleInputChange}
+                  placeholder="Number of people the room can hold (e.g 20)"
+                  required
+                />
+              </div>
+              <div>
+                <label 
+                 htmlFor="sqft"
+                className="block text-sm font-semibold mb-2 text-foreground">Size (sqft)</label>
+                <Input
+                  type="number"
+                  id="sqft"
+                  name="sqft"
+                  // value={formData.sqft}
+                  // onChange={handleInputChange}
+                  placeholder="500"
+                  required
+                />
+              </div>
+            </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="capacity"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Capacity
-            </label>
-            <input
-              type="number"
-              id="capacity"
-              name="capacity"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Number of people the room can hold"
-              required
-            />
-          </div>
+            {/* Grid: Price & Location */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label 
+                htmlFor="price_per_hour"
+                className="block text-sm font-semibold mb-2 text-foreground">Price per Hour ($)</label>
+                <Input
+                  type="number"
+                  id="price_per_hour"
+                  name="price_per_hour"
+                  // value={formData.price_per_hour}
+                  // onChange={handleInputChange}
+                  placeholder="Enter price per hour (e.g 50)"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div>
+                <label 
+                htmlFor="location"
+                className="block text-sm font-semibold mb-2 text-foreground">Location</label>
+                <Input
+                  type="text"
+                  id="location"
+                  name="location"
+                  // value={formData.location}
+                  // onChange={handleInputChange}
+                  placeholder="Downtown, Building A, Floor 2"
+                  required
+                />
+              </div>
+            </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="price_per_hour"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Price Per Hour
-            </label>
-            <input
-              type="number"
-              id="price_per_hour"
-              name="price_per_hour"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Enter price per hour"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
+            {/* Address */}
+            <div>
+              <label 
               htmlFor="address"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Address
-            </label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Enter full address"
-              required
-            />
-          </div>
+              className="block text-sm font-semibold mb-2 text-foreground">Full Address</label>
+              <Input
+                type="text"
+                id="address"
+                name="address"
+                // value={formData.address}
+                // onChange={handleInputChange}
+                placeholder="123 Business St, City, State"
+                required
+              />
+            </div>
 
-          <div className="mb-4">
-            <label
-              htmlFor="location"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Location
-            </label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Location (Building, Floor, Room)"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
+            <div className="mb-4">
             <label
               htmlFor="availability"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Availability
-            </label>
-            <input
+              className="block text-sm font-semibold mb-2 text-foreground">Availability</label>
+            <Input
               type="text"
               id="availability"
               name="availability"
-              className="border rounded w-full py-2 px-3"
+              // value={formData.availability}
               placeholder="Availability (Monday - Friday, 9am - 5pm)"
               required
             />
-          </div>
+            </div>
 
-          <div className="mb-4">
-            <label
+            {/* Amenities */}
+            <div>
+              <label 
               htmlFor="amenities"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Amenities
-            </label>
-            <input
-              type="text"
-              id="amenities"
-              name="amenities"
-              className="border rounded w-full py-2 px-3"
-              placeholder="Amenities CSV (projector, whiteboard, etc.)"
-              required
-            />
-          </div>
+              className="block text-sm font-semibold mb-2 text-foreground">Amenities (comma separated)</label>
+              <Input
+                type="text"
+                id="amenities"
+                name="amenities"
+                // value={formData.amenities}
+                // onChange={handleInputChange}
+                placeholder="WiFi, Projector, Whiteboard, AC"
+              />
+            </div>
 
           {/* <!-- Image Upload --> */}
           <div className="mb-8">
@@ -208,7 +243,7 @@ const AddRoomPage = () => {
               Image
             </label>
 
-            <input
+            <Input
               type="file"
               id="image"
               name="image"
@@ -216,18 +251,18 @@ const AddRoomPage = () => {
             />
           </div>
 
-          <div className="flex flex-col gap-5">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Save
-            </button>
-          </div>
-        </form>
+            {/* Submit Buttons */}
+            <div className="flex gap-2 pt-6 border-t border-border">
+              <Button type="button" variant="outline" onClick={() => router.back()} className="flex-1">
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading} className="flex-1 bg-primary hover:bg-primary/90">
+                {loading ? "Adding..." : "Add Room"}
+              </Button>
+            </div>
+          </form>
+        </Card>
       </div>
     </ProtectedRoute>
-  );
-};
-
-export default AddRoomPage;
+  )
+}

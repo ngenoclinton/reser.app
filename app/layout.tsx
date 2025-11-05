@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   return (
     <AuthWrapper>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={_geist.className}>
           <Header />
           <main className={`font-sans antialiased flex flex-col min-h-screen`}>
             {children}

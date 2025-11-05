@@ -2,7 +2,8 @@
 
 import { ID } from "node-appwrite";
 import { revalidatePath } from "next/cache";
-import { createAdminClient } from "../../config/appwriteClient";
+import { createAdminClient } from "@/config/appwriteServer";
+// import { createAdminClient } from "../../config/appwriteClient";
 
 async function createRoom(prevState, formData) {
 

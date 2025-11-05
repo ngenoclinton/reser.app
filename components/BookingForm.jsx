@@ -1,10 +1,12 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent } from 'react';
-import { useActionState } from "react"; // ✅ new import
-import { toast } from 'react-toastify';
+import { useActionState } from "react";
+// import { toast } from 'react-toastify';
+import { toast } from "sonner"
 import bookRoom from '../app/actions/bookRoom';
 import { useAuth } from '../context/authLogContext';
+import { Calendar, Clock } from "lucide-react"
 
 const BookingForm = ({ room }) => {
   const router = useRouter();
@@ -27,88 +29,80 @@ const BookingForm = ({ room }) => {
       router.push('/bookings');
     }
   }, [state]);
+
 const handleSubmit = async (formData) => {
-  console.log("Room name from form:", formData.get("room_name")); // ✅ debug
+    formData.set("room_id", room.$id)
+    formData.set("user_id", user?.$id || "")
+    formData.set("room_name", room.room_name)
   await formAction(formData);
 };
   return (
-    <div className='mt-6'>
-      <h2 className='text-xl font-bold'>Book this Room</h2>
-      <form action={handleSubmit} className='mt-4'>
-        <input type='hidden' name='room_id' value={room.$id} />
-        <input type="hidden" name="user_id" value={user?.$id || ""} />
-        <input type='hidden' name='room_name' value={room.room_name} />
-        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
-          <div>
-            <label
-              htmlFor='check_in_date'
-              className='block text-sm font-medium text-gray-700'
-            >
-              Check-In Date
-            </label>
-            <input
-              type='date'
-              id='check_in_date'
-              name='check_in_date'
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor='check_in_time'
-              className='block text-sm font-medium text-gray-700'
-            >
-              Check-In Time
-            </label>
-            <input
-              type='time'
-              id='check_in_time'
-              name='check_in_time'
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor='check_out_date'
-              className='block text-sm font-medium text-gray-700'
-            >
-              Check-Out Date
-            </label>
-            <input
-              type='date'
-              id='check_out_date'
-              name='check_out_date'
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor='check_out_time'
-              className='block text-sm font-medium text-gray-700'
-            >
-              Check-Out Time
-            </label>
-            <input
-              type='time'
-              id='check_out_time'
-              name='check_out_time'
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
-              required
-            />
-          </div>
+    <div>
+      <div className="mb-8">
+        <p className="text-sm text-foreground/60 mb-2">Price per hour</p>
+        <p className="text-3xl font-bold text-primary">${room.price_per_hour}</p>
+      </div>
+
+      <form action={handleSubmit} className="space-y-6">
+        <div>
+          <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+            <Calendar size={18} />
+            Check-In Date
+          </label>
+          <input
+            type="date"
+            name="check_in_date"
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+          />
         </div>
 
-        <div className='mt-6'>
-          <button
-            type='submit'
-            className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800'
-          >
-            Book Room
-          </button>
+        <div>
+          <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+            <Clock size={18} />
+            Check-In Time
+          </label>
+          <input
+            type="time"
+            name="check_in_time"
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+          />
         </div>
+
+        <div>
+          <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+            <Calendar size={18} />
+            Check-Out Date
+          </label>
+          <input
+            type="date"
+            name="check_out_date"
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+            <Clock size={18} />
+            Check-Out Time
+          </label>
+          <input
+            type="time"
+            name="check_out_time"
+            className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition"
+        >
+          Book Now
+        </button>
+        <p className="text-xs text-foreground/50 text-center">You won't be charged until confirmed</p>
       </form>
     </div>
   );

@@ -2,10 +2,9 @@
 import NotFound from "../../../components/NotFound";
 import Image from "next/image";
 import Link from "next/link";
-import { FaChevronLeft } from "react-icons/fa";
+import { ArrowLeft, Users, Clock, Award, CheckCircle, DollarSign } from "lucide-react"
 import Heading from "../../../components/Heading";
 import BookingForm from "../../../components/BookingForm";
-import getAllRooms from "../../actions/getAllRooms";
 import getSingleRoom from "../../actions/getSingleRoom";
 
 const RoomPage = async ({ params }) => {
@@ -13,8 +12,6 @@ const RoomPage = async ({ params }) => {
   // ---------------------------------------------->
   const room = await getSingleRoom(id);
   //--- ------------------------------------------->
-  // const rooms = await getAllRooms();
-  // const room = rooms.find((room) => room.id === id);
 
   if (!room) {
     return <NotFound />;
@@ -29,57 +26,81 @@ const RoomPage = async ({ params }) => {
 
   const imageSrc = room.image ? imageUrl : "/images/no-image.jpg";
 
+  const amenities = room.amenities ? room.amenities.split(",").map((a) => a.trim()) : []
+
   return (
-    <>
-      <Link
-        href="/"
-        className="flex items-center text-gray-600 hover:text-gray-800 mb-4"
-      >
-        <FaChevronLeft className="inline mr-1" />
-        <span className="ml-2">Back to Rooms</span>
-      </Link>{" "}
-      <div className="bg-white shadow rounded-lg p-6">
-        <div className="flex flex-col sm:flex-row sm:space-x-6">
-          <Image
-            src={imageSrc}
-            alt={room.room_name}
-            width={400}
-            height={100}
-            className="w-full sm:w-1/3 h-64 object-cover rounded-lg"
-          />
+   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Link href="/rooms" className="flex items-center gap-2 text-primary hover:text-primary/90 transition mb-8">
+        <ArrowLeft size={20} />
+        <span>Back to Spaces</span>
+      </Link>
 
-          <div className="mt-4 sm:mt-0 sm:flex-1">
-            <Heading title={room.room_name} />
-
-            <p className="text-gray-600 mb-4">{room.description}</p>
-
-            <ul className="space-y-2">
-              <li>
-                <span className="font-semibold text-gray-800">Size:</span>{" "}
-                {room.sqft}
-                sq ft
-              </li>
-              <li>
-                <span className="font-semibold text-gray-800">
-                  Availability:
-                </span>
-                {room.availability}
-              </li>
-              <li>
-                <span className="font-semibold text-gray-800">Price:</span>$
-                {room.price_per_hour}/hour
-              </li>
-              <li>
-                <span className="font-semibold text-gray-800">Address:</span>{" "}
-                {room.address}
-              </li>
-            </ul>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        {/* Left Column - Images & Info */}
+        <div className="lg:col-span-2">
+          <div className="rounded-2xl overflow-hidden mb-8 h-96">
+            <Image
+              src={imageSrc || "/placeholder.svg"}
+              alt={room.room_name}
+              width={800}
+              height={500}
+              className="w-full h-full object-cover"
+            />
           </div>
+
+          <div className="mb-12">
+            <Heading title={room.room_name} />
+            <p className="text-base text-foreground/70 leading-relaxed mb-8">{room.description}</p>
+          </div>
+
+          {/* Key Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+            <div className="p-4 bg-background rounded-xl border border-border">
+              <Users size={20} className="text-primary mb-2" />
+              <p className="text-sm text-foreground/60">Capacity</p>
+              <p className="text-lg font-bold text-foreground">{room.capacity || "∞"}</p>
+            </div>
+            <div className="p-4 bg-background rounded-xl border border-border">
+              <Clock size={20} className="text-primary mb-2" />
+              <p className="text-sm text-foreground/60">Size</p>
+              <p className="text-lg font-bold text-foreground">{room.sqft}ft²</p>
+            </div>
+            <div className="p-4 bg-background rounded-xl border border-border">
+              <DollarSign size={20} className="text-primary mb-2" />
+              <p className="text-sm text-foreground/60">Price</p>
+              <p className="text-lg font-bold text-foreground">${room.price_per_hour}</p>
+            </div>
+            <div className="p-4 bg-background rounded-xl border border-border">
+              <Award size={20} className="text-primary mb-2" />
+              <p className="text-sm text-foreground/60">Available From</p>
+              <p className="text-lg font-bold text-foreground">{room.availability || "Yes"}</p>
+            </div>
+          </div>
+
+          {/* Amenities */}
+          {amenities.length > 0 && (
+            <div>
+              <h2 className="text-xl font-bold text-foreground mb-6">Amenities</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {amenities.map((amenity, i) => (
+                  <div key={i} className="flex items-center gap-3 p-4 bg-background rounded-lg border border-border">
+                    <CheckCircle className="text-primary flex-shrink-0" size={16} />
+                    <span className="text-foreground">{amenity}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        <BookingForm room={room} />
+        {/* Right Column - Booking */}
+        <div className="lg:col-span-1">
+          <div className="sticky top-24 bg-white p-8 rounded-2xl border border-border shadow-lg">
+            <BookingForm room={room} />
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

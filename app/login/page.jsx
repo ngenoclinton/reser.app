@@ -1,12 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useActionState, useState } from "react";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { loginUser } from "../actions/loginUser";
 import { useAuth } from "../../context/authLogContext";
 import { loginUserClient } from "../../lib/loginUser";
+import { Mail, Lock } from "lucide-react"
 
 const LoginPage = () => {
   const [state, formAction] = useActionState(loginUser, {});
@@ -47,19 +48,25 @@ const LoginPage = () => {
     }
 
     setLoading(false);
-  };
+  };     
+ 
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-sm mt-20">
-        <form ref={formRef} onSubmit={handleLogin}>
-        {/* <form action={formAction}> */}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-2xl border border-border p-8 shadow-lg">
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-4">
+              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xl">R</span>
+              </div>
+            </div>
+            <h2 className="text-3xl font-bold text-foreground">Welcome Back</h2>
+            <p className="text-foreground/60 mt-2">Sign in to your account</p>
+          </div>
 
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-            Login
-          </h2>
-
-          <div className="mb-4">
+          <form ref={formRef} onSubmit={handleLogin} className="space-y-6">
+            <div className="mb-4">
             <label
               htmlFor="email"
               className="block text-gray-700 font-bold mb-2"
@@ -93,22 +100,22 @@ const LoginPage = () => {
             />
           </div>
 
-          <div className="flex flex-col gap-5">
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+              disabled={loading}
+              className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition disabled:opacity-50"
             >
-              Login
+              {loading ? "Signing in..." : "Sign In"}
             </button>
+          </form>
 
-            <p>
-              No account?
-              <Link href="/register" className="text-blue-500">
-                Register
-              </Link>
-            </p>
-          </div>
-        </form>
+          <p className="text-center text-foreground/60 mt-6">
+            Don't have an account?{" "}
+            <Link href="/register" className="text-primary hover:text-primary/90 font-semibold">
+              Sign up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -18,10 +18,8 @@ const CancelBookingButton = ({ bookingId, onCancel}) => {
     if (!confirmed) return;
 
     try {
-
          // ✅ Optimistically update UI first
       if (onCancel) onCancel(bookingId);
-
       const result = await cancelBooking(bookingId, user.$id);
 
       if (result.success) {
@@ -30,6 +28,7 @@ const CancelBookingButton = ({ bookingId, onCancel}) => {
       } else {
         toast.error(result.error || 'Failed to cancel booking.');
       }
+
     } catch (error) {
       console.error('Failed to cancel booking:', error);
       toast.error('Something went wrong while cancelling booking.');
@@ -37,9 +36,9 @@ const CancelBookingButton = ({ bookingId, onCancel}) => {
   };
 
   return (
-    <button
+     <button
       onClick={handleCancelClick}
-      className="bg-red-500 text-white px-4 py-2 rounded w-full sm:w-auto text-center hover:bg-red-700"
+      className="px-4 py-3 bg-destructive text-destructive-foreground rounded-lg hover:bg-destructive/90 transition font-semibold"
     >
       Cancel Booking
     </button>
