@@ -1,8 +1,8 @@
 
 'use server';
-import { createSessionClient } from '../../config/appwriteClient';
+import { client } from '@/config/appwriteClient';
+
 import { cookies } from 'next/headers';
-// import { createSessionClient } from '@/config/appwriteClient';
 
 export async function loginUser(prevState, formData) {
   const email = formData.get('email');
@@ -14,7 +14,7 @@ export async function loginUser(prevState, formData) {
 
   try {
     // ✅ Use the normal client, not admin
-    const { account } = createSessionClient();
+    const { account } = client();
     const session = await account.createEmailPasswordSession({email, password});
 
     // ✅ Save the session ID in cookies (for server-side access)

@@ -3,8 +3,8 @@ import { useState, useEffect } from "react"
 import RoomCard from "@/components/RoomCard"
 import RoomListView from "@/components/RoomListView"
 import RoomFilters from "@/components/RoomFilters"
-import Heading from "@/components/heading"
 import getAllRooms from "@/app/actions/getAllRooms"
+import Heading from "@/components/Heading"
 export default function Page() {
 
   const [allRooms, setAllRooms] = useState([])
