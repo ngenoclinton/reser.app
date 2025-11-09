@@ -55,7 +55,6 @@ async function bookRoom(previousState, formData) {
       check_in: checkInDateTime,
       check_out: checkOutDateTime,
     };
-    console.log("BookingData:", bookingData);
 
     // Create the booking document
     await databases.createDocument(

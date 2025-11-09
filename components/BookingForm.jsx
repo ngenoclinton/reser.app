@@ -2,7 +2,6 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useEffectEvent } from 'react';
 import { useActionState } from "react";
-// import { toast } from 'react-toastify';
 import { toast } from "sonner"
 import bookRoom from '../app/actions/bookRoom';
 import { useAuth } from '../context/authLogContext';
@@ -36,6 +35,7 @@ const handleSubmit = async (formData) => {
     formData.set("room_name", room.room_name)
   await formAction(formData);
 };
+
   return (
     <div>
       <div className="mb-8">
