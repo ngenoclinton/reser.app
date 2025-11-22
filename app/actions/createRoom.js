@@ -6,15 +6,14 @@ import { createAdminClient } from "@/config/appwriteServer";
 
 
 async function createRoom(prevState, formData) {
-
-  if (!formData.get("userId")) {
-    return { error: "You must be logged in to create a room" };
+  const userId = formData.get("userId");
+  if (!userId) {
+    return { error: "Unauthorized: You must be logged in to create a room" };
   }
 
   const { databases, storage} = await createAdminClient();
 
   try {
-
     // Uploading image
     let imageID;
 
@@ -28,17 +27,18 @@ async function createRoom(prevState, formData) {
       } catch (error) {
         console.log('Error uploading image', error);
         return {
-          error: 'Error uploading image',
+          error: 'Error uploading image:' + error.message,
         };
       }
     } else {
       console.log('No image file provided or file is invalid');
     }
 
+  
     //create room 
     const newRoom = await databases.createDocument(
       process.env.APPWRITE_DATABASE_ID,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS,
+      process.env.APPWRITE_COLLECTION_ROOMS,
       ID.unique(),
       {
         user_id: formData.get("userId"),// associate with user
