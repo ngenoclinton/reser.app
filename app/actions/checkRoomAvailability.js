@@ -31,8 +31,8 @@ async function checkRoomAvailability(roomId, checkIn, checkOut) {
 
     // Fetch all bookings for a given room
     const { documents: bookings } = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       [Query.equal('room_id', roomId)]
     );
 

@@ -21,8 +21,8 @@ async function updateBookingStatus(bookingId, status, paymentInfo) {
     }
 
     await databases.updateDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       bookingId,
       updateData,
     )

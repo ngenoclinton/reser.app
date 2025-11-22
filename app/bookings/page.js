@@ -81,7 +81,7 @@ export default function BookingsPage() {
           </TabsList>
 
           {/* Active Bookings */}
-          <TabsContent value="active" className="space-y-4 mt-6">
+          <TabsContent value="active" className="space-y-4 mt-6"> 
             {bookings.active.length > 0 ? (
               bookings.active.map((booking) => (
                 <ActiveBookingCard

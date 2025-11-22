@@ -8,7 +8,7 @@ async function deleteRoom(roomId) {
     const { databases } = await createAdminClient();
 
     await databases.deleteDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.APPWRITE_DATABASE_ID,
       process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS,
       roomId
     );

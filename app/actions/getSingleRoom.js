@@ -9,7 +9,7 @@ async function getSingleRoom(id) {
     const { databases } = await createAdminClient();
 
     const room = await databases.getDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.APPWRITE_DATABASE_ID,
       process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS,
       id
     );

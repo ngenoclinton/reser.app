@@ -1,7 +1,7 @@
 import NotFound from "@/components/not-found"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowLeft, Users, Clock, Award, CheckCircle, DollarSign } from "lucide-react"
+import { ArrowLeft, Users, Clock, Award, CheckCircle, DollarSign, Calendar } from "lucide-react"
 import BookingFormAdvanced from "@/components/BookingFormAdvanced"
 import getSingleRoom from "@/app/actions/getSingleRoom"
 import Heading from "@/components/Heading"
@@ -91,10 +91,51 @@ export default async function RoomPage({ params }) {
         </div>
 
         {/* Right Column - Booking */}
+        {/* <div className="lg:col-span-1">
+          <div className="sticky top-24 bg-white p-8 rounded-2xl border border-border shadow-lg">
+            <BookingFormAdvanced room={room}/>
+          </div>
+        </div> */}
+        {/* Right Column - Check Availability */}
         <div className="lg:col-span-1">
           <div className="sticky top-24 bg-white p-8 rounded-2xl border border-border shadow-lg">
-            {/* <BookingForm room={room} /> */}
-            <BookingFormAdvanced room={room}/>
+            <div className="mb-8">
+              <p className="text-sm text-foreground/60 mb-2">Price per hour</p>
+              <p className="text-3xl font-bold text-primary">${room.price_per_hour}</p>
+            </div>
+
+            {/* Key Features */}
+            <div className="mb-8 space-y-3">
+              <div className="flex items-center gap-2 text-sm text-foreground">
+                <CheckCircle size={16} className="text-green-600 flex-shrink-0" />
+                <span>50% deposit to reserve</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-foreground">
+                <CheckCircle size={16} className="text-green-600 flex-shrink-0" />
+                <span>Flexible cancellation policy</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-foreground">
+                <CheckCircle size={16} className="text-green-600 flex-shrink-0" />
+                <span>Instant confirmation</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-foreground">
+                <CheckCircle size={16} className="text-green-600 flex-shrink-0" />
+                <span>Multiple payment methods</span>
+              </div>
+            </div>
+
+            {/* Check Availability Button */}
+            <Link
+              href={`/booking/${id}/availability`}
+              className="w-full py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition flex items-center justify-center gap-2 mb-3"
+            >
+              <Calendar size={18} />
+              Check Availability
+            </Link>
+
+            <p className="text-xs text-foreground/50 text-center">
+              Select dates and times to check availability and proceed with booking
+            </p>
           </div>
         </div>
       </div>

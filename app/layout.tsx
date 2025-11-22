@@ -5,6 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "../components/header";
 import Footer from "../components/Footer";
 import AuthWrapper from "../components/AuthWrapper";
+import BookingWrapper from "../components/BookingWrapper";
+
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -21,6 +23,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <AuthWrapper>
+      <BookingWrapper>
       <html lang="en">
         <body 
         className="font-sans"
@@ -35,6 +38,7 @@ export default function RootLayout({ children }) {
           <ToastContainer />
         </body>
       </html>
+      </BookingWrapper>
     </AuthWrapper>
   );
 }

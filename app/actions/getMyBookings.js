@@ -12,8 +12,8 @@ async function getMyBookings(userId) {
     const { databases } = await createAdminClient();
 
     const { documents } = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       [Query.equal('user_id', userId)]
     );
 

@@ -5,7 +5,7 @@ import RoomListView from "@/components/RoomListView"
 import RoomFilters from "@/components/RoomFilters"
 import getAllRooms from "@/app/actions/getAllRooms"
 import Heading from "@/components/Heading"
-export default function Page() {
+export default function Rooms() {
 
   const [allRooms, setAllRooms] = useState([])
   const [filteredRooms, setFilteredRooms] = useState([])

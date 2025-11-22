@@ -19,8 +19,8 @@ async function cancelBookingWithRefund(bookingId, userId) {
 
     // Fetch booking
     const booking = await databases.getDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       bookingId,
     )
 
@@ -52,8 +52,8 @@ async function cancelBookingWithRefund(bookingId, userId) {
 
     // Create history record
     const cancelledBooking = await databases.updateDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       bookingId,
       {
         booking_status: "cancelled",

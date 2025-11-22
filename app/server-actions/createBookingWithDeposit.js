@@ -34,8 +34,8 @@ async function createBookingWithDeposit(previousState, formData) {
 
     // Check for overlapping bookings (only confirmed/paid bookings block availability)
     const bookings = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       [
         Query.equal("room_id", roomId),
         // Query.or([Query.equal("status", "confirmed"), Query.equal("status", "completed")]),
@@ -92,8 +92,8 @@ async function createBookingWithDeposit(previousState, formData) {
     };
 
     const booking = await databases.createDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       ID.unique(),
       bookingData
     );

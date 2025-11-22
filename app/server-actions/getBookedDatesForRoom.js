@@ -14,8 +14,8 @@ async function getBookedDatesForRoom(roomId) {
     const { databases } = await createAdminClient()
 
     const bookings = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       [
         Query.equal("room_id", roomId),
         Query.or([Query.equal("status", "confirmed"), Query.equal("status", "completed")]),

@@ -30,8 +30,8 @@ async function bookRoom(previousState, formData) {
 
     // Check if the room is already booked during this time
     const bookings = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       [Query.equal("room_id", roomId)]
     );
 
@@ -58,8 +58,8 @@ async function bookRoom(previousState, formData) {
 
     // Create the booking document
     await databases.createDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
+      process.env.APPWRITE_DATABASE_ID,
+      process.env.APPWRITE_COLLECTION_BOOKINGS,
       ID.unique(),
       bookingData
     );

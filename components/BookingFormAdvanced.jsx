@@ -2,17 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { useActionState } from "react";
+
+import { useAuth } from "../context/authLogContext";
+import { useRouter } from "next/navigation";
 import { Calendar, Clock, AlertCircle, Check } from "lucide-react";
 import { toast } from "sonner";
-import createBookingWithDeposit from "@/app/server-actions/createBookingWithDeposit";
-import getBookedDatesForRoom from "@/app/server-actions/getBookedDatesForRoom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+
 import DatePicker from "@/components/date-picker";
-import { useAuth } from "../context/authLogContext";
-import { useRouter } from "next/navigation";
+
+import createBookingWithDeposit from "@/app/server-actions/createBookingWithDeposit";
+import getBookedDatesForRoom from "@/app/server-actions/getBookedDatesForRoom";
+
 
 export default function BookingFormAdvanced({ room }) {
   //onBookingSuccess add this prop later
@@ -36,7 +40,6 @@ export default function BookingFormAdvanced({ room }) {
   useEffect(() => {
     if (!isAuthenticated) {
       toast.error("Please log in to book a space");
-      //   router.push("/login");
       return;
     }
   }, [isAuthenticated, router]);
