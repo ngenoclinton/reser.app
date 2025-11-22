@@ -13,8 +13,8 @@ async function cancelBooking(bookingId, userId) {
 
     // Fetch the booking
     const booking = await databases.getDocument(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_COLLECTION_BOOKINGS,
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
       bookingId
     );
 
@@ -25,8 +25,8 @@ async function cancelBooking(bookingId, userId) {
 
     // ✅ Delete booking
     await databases.deleteDocument(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_COLLECTION_BOOKINGS,
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
       bookingId
     );
 

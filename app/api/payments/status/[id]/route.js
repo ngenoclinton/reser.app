@@ -14,8 +14,8 @@ export const GET = async (
     const { databases } = await createAdminClient();
 
     const booking = await databases.getDocument(
-      process.env.APPWRITE_DATABASE_ID,           // ← NO NEXT_PUBLIC
-      process.env.APPWRITE_COLLECTION_BOOKINGS,  // ← NO NEXT_PUBLIC
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,           // ← NO NEXT_PUBLIC
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,  // ← NO NEXT_PUBLIC
       id
     );
 

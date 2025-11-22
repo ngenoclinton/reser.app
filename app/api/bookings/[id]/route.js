@@ -13,8 +13,8 @@ export async function GET(request, { params }) {
 
     // Fetch booking from database
     const booking = await databases.getDocument(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_COLLECTION_BOOKINGS,
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
       bookingId,
     )
 

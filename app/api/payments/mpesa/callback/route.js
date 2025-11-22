@@ -38,8 +38,8 @@ export async function POST(req) {
       // OR
     // MATCH BY CHECKOUT ID IF YOU STORE IT DURING INITIATION
     const result= await databases.listDocuments(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_COLLECTION_BOOKINGS,
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
       [
         Query.equal("mpesa_checkout_id", CheckoutRequestID), //USING CHECKOUT REQUEST ID
         Query.limit(1)
@@ -60,8 +60,8 @@ export async function POST(req) {
 
       try{
       await databases.updateDocument(
-        process.env.APPWRITE_DATABASE_ID,
-        process.env.APPWRITE_COLLECTION_BOOKINGS,
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+        process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
         booking.$id,
         {
           payment_status: "paid",
@@ -85,8 +85,8 @@ export async function POST(req) {
       const errorMessage = ResultDesc || "Payment failed or cancelled by user";
 
       await databases.updateDocument(
-        process.env.APPWRITE_DATABASE_ID,
-        process.env.APPWRITE_COLLECTION_BOOKINGS,
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+        process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
         booking.$id,
         {
           payment_status: "failed",

@@ -37,8 +37,8 @@ async function createRoom(prevState, formData) {
   
     //create room 
     const newRoom = await databases.createDocument(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_COLLECTION_ROOMS,
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS,
       ID.unique(),
       {
         user_id: formData.get("userId"),// associate with user
@@ -107,7 +107,7 @@ export default createRoom;
 
 //     // Create room
 //     const newRoom = await databases.createDocument(
-//       process.env.APPWRITE_DATABASE_ID,
+//       process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
 //       process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS,
 //       ID.unique(),
 //       {

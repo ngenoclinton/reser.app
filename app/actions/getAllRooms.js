@@ -8,7 +8,7 @@ async function getAllRooms() {
     const { databases } = await createAdminClient();
 
     const { documents: rooms } = await databases.listDocuments({
-      databaseId: process.env.APPWRITE_DATABASE_ID,
+      databaseId: process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
       collectionId: process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ROOMS,
     });
 

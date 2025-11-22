@@ -9,8 +9,8 @@ export async function POST(request) {
 
     // Get booking to verify M-Pesa payment
     const booking = await databases.getDocument(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_COLLECTION_BOOKINGS,
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
       bookingId,
     )
 
@@ -24,8 +24,8 @@ export async function POST(request) {
     if (refundResult.success) {
       // Update booking with refund status
       await databases.updateDocument(
-        process.env.APPWRITE_DATABASE_ID,
-        process.env.APPWRITE_COLLECTION_BOOKINGS,
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+        process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
         bookingId,
         {
           refund_status: "processing",

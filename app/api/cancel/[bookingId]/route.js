@@ -8,8 +8,8 @@ export async function POST( request, {params}) {
     const { databases } = await createAdminClient();
 
     await databases.updateDocument(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_COLLECTION_BOOKINGS,
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
       bookingId,
       {
         payment_status: "cancelled",

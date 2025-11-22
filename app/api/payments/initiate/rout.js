@@ -30,8 +30,8 @@ export async function POST(request) {
 
     // Create booking document
     const booking = await databases.createDocument(
-      process.env.APPWRITE_DATABASE_ID,
-      process.env.APPWRITE_COLLECTION_BOOKINGS,
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
       "unique()",
       {
         user_id: userId,

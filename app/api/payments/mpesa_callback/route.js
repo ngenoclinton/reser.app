@@ -17,8 +17,8 @@ export async function POST(request) {
       const bookingId = MerchantRequestID.split("_")[1]
 
       const updatedBooking = await databases.updateDocument(
-        process.env.APPWRITE_DATABASE_ID,
-        process.env.APPWRITE_COLLECTION_BOOKINGS,
+        process.env.NEXT_PUBLIC_APPWRITE_DATABASE,
+        process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_BOOKINGS,
         bookingId,
         {
           payment_status: "paid",//if deposit should set status to partial
