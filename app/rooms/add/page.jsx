@@ -71,64 +71,64 @@ export default function AddRoomPage() {
     setLoad(false)
   };
 // -----------------------------------------//
-// Appwrite client for browser → direct upload
-  const browserClient = new Client()
-    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
-    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT);
+// // Appwrite client for browser → direct upload
+//   const browserClient = new Client()
+//     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+//     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT);
 
-  const storage = new Storage(browserClient);
+//   const storage = new Storage(browserClient);
 
-  // DIRECT file upload — avoids 413 issues
-  const handleImageUpload = async (file) => {
-    setLoader(true);
-    try {
-      const uploaded = await storage.createFile(
-        process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS,
-        ID.unique(),
-        file
-      );
+//   // DIRECT file upload — avoids 413 issues
+//   const handleImageUpload = async (file) => {
+//     setLoader(true);
+//     try {
+//       const uploaded = await storage.createFile(
+//         process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS,
+//         ID.unique(),
+//         file
+//       );
 
-      setImageId(uploaded.$id);
-      toast.success("Image uploaded!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Image upload failed");
-    }
-    setLoader(false);
-  };
+//       setImageId(uploaded.$id);
+//       toast.success("Image uploaded!");
+//     } catch (error) {
+//       console.error(error);
+//       toast.error("Image upload failed");
+//     }
+//     setLoader(false);
+//   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
 
-    const form = new FormData(e.target);
+//     const form = new FormData(e.target);
 
-    if (!user) {
-      toast.error("You must be logged in");
-      return;
-    }
+//     if (!user) {
+//       toast.error("You must be logged in");
+//       return;
+//     }
 
-    // Attach image ID (uploaded earlier)
-    if (imageId) {
-      form.append("imageId", imageId);
-    }
+//     // Attach image ID (uploaded earlier)
+//     if (imageId) {
+//       form.append("imageId", imageId);
+//     }
 
-    const res = await fetch("/api/rooms/create", {
-      method: "POST",
-      body: form,
-    });
+//     const res = await fetch("/api/rooms/create", {
+//       method: "POST",
+//       body: form,
+//     });
 
-     const result = await res.json();
+//      const result = await res.json();
 
-    if (result.success) {
-      toast.success("Room created!");
-      router.push("/");
-    } else {
-      toast.error(result.error);
-    }
+//     if (result.success) {
+//       toast.success("Room created!");
+//       router.push("/");
+//     } else {
+//       toast.error(result.error);
+//     }
 
-    setLoader(false);
-  }
+//     setLoader(false);
+//   }
 
   return (
     <ProtectedRoute>
