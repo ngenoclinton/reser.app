@@ -3,11 +3,14 @@
 import { useState, useEffect} from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+
 import { useAuth } from "../../../context/authLogContext"
+
 import { useActionState } from "react"; // ✅ new import
 
 import Heading from "../../../components/Heading"
 import ProtectedRoute from "../../../components/ProtectedRoute"
+
 import createRoom from "../../actions/createRoom";
 
 import { Button } from "@/components/ui/button"
@@ -20,6 +23,12 @@ export default function AddRoomPage() {
   const [state, formAction] = useActionState(createRoom, {});
   const [load, setLoad] = useState(false); // ✅ rename
 
+
+  const [loader, setLoader] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageId, setImageId] = useState(null); 
+
+
   const router = useRouter()   
   // const [loading, setLoading] = useState(false)
 
@@ -30,17 +39,6 @@ export default function AddRoomPage() {
       router.push("/");
     }
   }, [state]);
-
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   description: "",
-  //   capacity: "",
-  //   sqft: "",
-  //   price_per_hour: "",
-  //   location: "",
-  //   address: "",
-  //   amenities: "",
-  // })
 
   if (authLoading) {
     return (
@@ -58,15 +56,6 @@ export default function AddRoomPage() {
     )
   }
 
-  // const handleInputChange = (e) => {
-    // const { name, value } = e.target
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }))
-  // }
-  // coS
-
   const handleAction = (formData) => {
     setLoad(true); 
 
@@ -81,6 +70,65 @@ export default function AddRoomPage() {
 
     setLoad(false)
   };
+// -----------------------------------------//
+// Appwrite client for browser → direct upload
+  const browserClient = new Client()
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+    .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT);
+
+  const storage = new Storage(browserClient);
+
+  // DIRECT file upload — avoids 413 issues
+  const handleImageUpload = async (file) => {
+    setLoader(true);
+    try {
+      const uploaded = await storage.createFile(
+        process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS,
+        ID.unique(),
+        file
+      );
+
+      setImageId(uploaded.$id);
+      toast.success("Image uploaded!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Image upload failed");
+    }
+    setLoader(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const form = new FormData(e.target);
+
+    if (!user) {
+      toast.error("You must be logged in");
+      return;
+    }
+
+    // Attach image ID (uploaded earlier)
+    if (imageId) {
+      form.append("imageId", imageId);
+    }
+
+    const res = await fetch("/api/rooms/create", {
+      method: "POST",
+      body: form,
+    });
+
+     const result = await res.json();
+
+    if (result.success) {
+      toast.success("Room created!");
+      router.push("/");
+    } else {
+      toast.error(result.error);
+    }
+
+    setLoader(false);
+  }
 
   return (
     <ProtectedRoute>
@@ -123,9 +171,7 @@ export default function AddRoomPage() {
             </div>
 
             {/* Grid: Capacity & Sqft */}
-            <div 
-            
-            className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label 
                 htmlFor="capacity"
@@ -140,6 +186,7 @@ export default function AddRoomPage() {
                   required
                 />
               </div>
+
               <div>
                 <label 
                  htmlFor="sqft"
@@ -248,6 +295,12 @@ export default function AddRoomPage() {
               id="image"
               name="image"
               className="border rounded w-full py-2 px-3"
+              accept="image/*"
+              onChange={(e) => {
+                const f = e.target.files[0];
+                setImageFile(f);
+                handleImageUpload(f);
+              }}
             />
           </div>
 

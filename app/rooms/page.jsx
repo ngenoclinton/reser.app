@@ -10,7 +10,7 @@ export default function Rooms() {
   const [allRooms, setAllRooms] = useState([])
   const [filteredRooms, setFilteredRooms] = useState([])
   const [loading, setLoading] = useState(true)
-  const [viewType, setViewType] = useState("grid")
+  const [viewType, setViewType] = useState("list")
   
   // const rooms = await getAllRooms();
 
@@ -70,7 +70,7 @@ export default function Rooms() {
         <div className="flex flex-col gap-6">
           {filteredRooms.map((room) => (
           <RoomListView  key={room.$id} room={room} />
-          ))}
+          ))} 
         </div>
       )}
 

@@ -5,7 +5,7 @@ export const createAdminClient = async () => {
   const client = new Client()
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT) // API Endpoint
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT) // project ID
-    .setKey(process.env.NEXT_APPWRITE_KEY); // Your secret API key
+    .setKey(process.env.APPWRITE_API_KEY); // Your secret API key
 
   return {
     get account() {
@@ -20,24 +20,9 @@ export const createAdminClient = async () => {
   };
 };
 
-// config/appwriteServer.js
-// export const createAdminClient = () => {
-//   const client = new Client()
-//     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
-//     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT)
-//     .setKey(process.env.NEXT_APPWRITE_KEY);
-
-//   return {
-//     account: new Account(client),
-//     databases: new Databases(client),
-//     storage: new Storage(client),
-//   };
-// };
-
-
 const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT) // API Endpoint
   .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT) // project ID
-  .setKey(process.env.NEXT_APPWRITE_KEY); // secret API key // Must be server-side only
+  .setKey(process.env.APPWRITE_API_KEY); // secret API key // Must be server-side only
 
 export const account = new Account(client);
