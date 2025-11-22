@@ -1,7 +1,7 @@
 // app/api/payments/initiate/route.ts
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/config/appwriteServer";
-import paystack from "@/lib/paystack";
+// import paystack from "@/lib/paystack";
 import { initiateSTKPush } from "@/lib/mpesa";
 export async function POST(req) {
   try {
