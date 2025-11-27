@@ -1,4 +1,6 @@
 // app/api/payments/stripe/create-intent/route.js
+export const dynamic = 'force-dynamic'; // ← ADD THIS
+
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createAdminClient } from '@/config/appwriteServer';
@@ -12,7 +14,7 @@ export async function POST(req) {
 
     // Create booking first (same as initiate)
     const body = JSON.parse(metadata.booking_details);
-    const { databases } = await (await getAdminClient());  
+    const { databases } = await createAdminClient(); // 
 
     console.log(body); 
 

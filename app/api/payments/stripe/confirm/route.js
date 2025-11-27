@@ -1,4 +1,6 @@
 // app/api/payments/stripe/confirm/route.js
+export const dynamic = 'force-dynamic'; //
+
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createAdminClient } from '@/config/appwriteServer';
@@ -10,6 +12,8 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const { paymentIntentId, bookingId } = body; // From request body
+    
+    const { databases } = await createAdminClient();
 
     console.log('Confirm request:', { paymentIntentId, bookingId }); // DEBUG: Log input
 
@@ -33,8 +37,7 @@ export async function POST(req) {
 
     console.log('Updating booking ID:', finalBookingId); // DEBUG
 
-    // const { databases } = await createAdminClient();
-    const { databases } = await (await getAdminClient());
+    // const { databases } = await (await getAdminClient());
 
     // Update booking in Appwrite
     await databases.updateDocument(
