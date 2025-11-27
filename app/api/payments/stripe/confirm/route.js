@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createAdminClient } from '@/config/appwriteServer';
+import { getAdminClient } from '@/lib/appwrite-server-dynamic';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -32,7 +33,8 @@ export async function POST(req) {
 
     console.log('Updating booking ID:', finalBookingId); // DEBUG
 
-    const { databases } = await createAdminClient();
+    // const { databases } = await createAdminClient();
+    const { databases } = await (await getAdminClient());
 
     // Update booking in Appwrite
     await databases.updateDocument(

@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createAdminClient } from '@/config/appwriteServer';
+import { getAdminClient } from '@/lib/appwrite-server-dynamic';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -11,8 +12,8 @@ export async function POST(req) {
 
     // Create booking first (same as initiate)
     const body = JSON.parse(metadata.booking_details);
-    const { databases } = await createAdminClient();
-    
+    const { databases } = await (await getAdminClient());  
+
     console.log(body); 
 
     // const booking = await databases.updateDocument(
