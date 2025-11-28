@@ -101,8 +101,6 @@ export default function PaymentPage({ room }) {
             }),
           },
         }),
-        // .then((res) => res.json())
-        // .then((data) => setClientSecret(data.clientSecret)),
       });
 
       const data = await res.json();
@@ -354,33 +352,6 @@ export default function PaymentPage({ room }) {
                       )}
                     </div>
                   )}
-                  {/* <Elements
-                    stripe={stripePromise}
-                    options={{
-                      mode: "payment",
-                      amount: convertedAmount,
-                      currency: "kes", // or "usd"
-                      appearance: { theme: "stripe" },
-                    }}
-                  >
-                    <StripeCheckoutForm
-                      amount={amount}
-                      roomId={roomId}
-                      userId={user?.$id}
-                      bookingData={reviewBookingDraft}
-                      paymentMethod={paymentMethod}
-                      bookingId={stripeBookingId}
-                      setLoading={setLoading}
-                      reviewBookingDraft={reviewBookingDraft}
-
-                      // onSuccess={() => {
-                      //     toast.success("Payment successful!");
-                      //     router.push(
-                      //       `/booking/${roomId}/confirmation?bookingId=${stripeBookingId}`
-                      //     );
-                      //   }}
-                    />
-                  </Elements> */}
                 </div>
               )}
             </div>

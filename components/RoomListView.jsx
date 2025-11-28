@@ -39,8 +39,8 @@ const bucketId = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS;
                 <div>
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="text-xl font-bold text-foreground">{room.room_name}</h3>
-                      <p className="text-sm text-foreground/60 flex items-center gap-1 mt-1">
+                      <h3 className="text-lg font-bold text-foreground">{room.room_name}</h3>
+                      <p className="text-xs text-foreground/60 flex items-center gap-1 mt-1">
                         <MapPin size={16} />
                         {room.location}
                       </p>
@@ -52,7 +52,7 @@ const bucketId = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS;
 
                 {/* Footer */}
                 <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex gap-6 text-sm">
+                  <div className="flex gap-6 text-xs">
                     <div className="flex items-center gap-2 text-foreground/70">
                       <Users size={18} className="text-primary" />
                       <span>{room.capacity} people</span>
@@ -63,7 +63,7 @@ const bucketId = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ROOMS;
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-primary">${room.price_per_hour}</div>
+                    <div className="text-xl font-bold text-primary">${room.price_per_hour}</div>
                     <p className="text-xs text-foreground/60">per hour</p>
                   </div>
                 </div>

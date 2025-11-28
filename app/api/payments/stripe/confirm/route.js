@@ -4,7 +4,6 @@ export const dynamic = 'force-dynamic'; //
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createAdminClient } from '@/config/appwriteServer';
-import { getAdminClient } from '@/lib/appwrite-server-dynamic';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -12,7 +11,7 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const { paymentIntentId, bookingId } = body; // From request body
-    
+
     const { databases } = await createAdminClient();
 
     console.log('Confirm request:', { paymentIntentId, bookingId }); // DEBUG: Log input

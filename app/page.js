@@ -14,7 +14,7 @@ export default function Home() {
               <h1 className="text-5xl sm:text-6xl font-bold text-foreground mb-6 leading-tight">
                 Book Perfect Spaces Instantly
               </h1>
-              <p className="text-xl text-foreground/70 mb-8 leading-relaxed">
+              <p className="text-lg text-foreground/70 mb-8 leading-relaxed">
                 Discover and reserve premium meeting and event spaces tailored to your needs. Professional, modern, and
                 effortless.
               </p>
@@ -25,12 +25,12 @@ export default function Home() {
                 >
                   Explore Spaces
                 </Link>
-                <Link
+                {/* <Link
                   href="/register"
                   className="px-8 py-3 border-2 border-primary text-primary rounded-lg hover:bg-primary/5 transition font-semibold text-center"
                 >
                   Get Started
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="rounded-2xl overflow-hidden shadow-2xl">
@@ -47,7 +47,7 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">How It Works</h2>
@@ -85,10 +85,10 @@ export default function Home() {
             })}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features */}
-      <section className="py-20 bg-background">
+      {/* <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">Why Choose Reser?</h2>
@@ -112,10 +112,10 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      {/* <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-4">Ready to Book?</h2>
           <p className="text-xl mb-8 opacity-90">
@@ -128,7 +128,7 @@ export default function Home() {
             Browse Spaces Now
           </Link>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }

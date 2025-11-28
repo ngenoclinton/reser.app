@@ -22,22 +22,22 @@ const RoomCard = ({ room }) => {
           fill
           className="object-cover hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute top-4 right-4 bg-accent text-accent-foreground px-3 py-1 rounded-full text-sm font-semibold">
+        <div className="absolute top-4 right-4 bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-semibold">
           ${room.price_per_hour}/hr
         </div>
       </div>
 
       <div className="p-6">
-        <h3 className="text-2xl font-bold text-foreground mb-2">{room.room_name}</h3>
+        <h3 className="text-1xl font-bold text-foreground mb-2">{room.room_name}</h3>
 
         <div className="space-y-3 mb-6">
           <div className="flex items-center gap-2 text-foreground/70">
             <MapPin size={18} />
-            <p className="text-sm">{room.address}</p>
+            <p className="text-xs">{room.address}</p>
           </div>
           <div className="flex items-center gap-2 text-foreground/70">
             <Users size={18} />
-            <p className="text-sm">Capacity: {room.capacity || "Varies"}</p>
+            <p className="text-xs">Capacity: {room.capacity || "Varies"}</p>
           </div>
         </div>
 
@@ -45,7 +45,7 @@ const RoomCard = ({ room }) => {
 
         <Link
           href={`/rooms/${room.$id}`}
-          className="block text-center w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition font-semibold"
+          className="block text-center w-full px-5 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition font-semibold"
         >
           View Details
         </Link>

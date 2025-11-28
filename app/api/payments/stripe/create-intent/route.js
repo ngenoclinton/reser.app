@@ -4,7 +4,6 @@ export const dynamic = 'force-dynamic'; // ← ADD THIS
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createAdminClient } from '@/config/appwriteServer';
-import { getAdminClient } from '@/lib/appwrite-server-dynamic';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -17,21 +16,6 @@ export async function POST(req) {
     const { databases } = await createAdminClient(); // 
 
     console.log(body); 
-
-    // const booking = await databases.updateDocument(
-    //   process.env.APPWRITE_DATABASE_ID,
-    //   process.env.APPWRITE_COLLECTION_BOOKINGS,
-    //   'unique()',
-    //   {
-    //     user_id: body.userId,
-    //     room_id: body.roomId,
-    //     payment_method: 'card',
-    //     payment_status: 'pending',
-    //     booking_status: 'pending_deposit',
-    //     total_amount: body.chargeAmount,
-    //     // ... other fields
-    //   }
-    // );
 
  const booking = await databases.createDocument(
       process.env.APPWRITE_DATABASE_ID,
