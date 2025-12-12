@@ -24,7 +24,7 @@
     "crypto-js": "^4.2.0",
     "lucide-react": "^0.552.0",
     "luxon": "^3.7.2",
-    "next": "16.0.0",
+    "next": "16.0.10",
     "node-appwrite": "^20.2.1",
     "paypal-rest-sdk": "^1.8.1",
     "paystack": "^2.0.1",
